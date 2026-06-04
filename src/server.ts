@@ -6,7 +6,16 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../public")));
 
-const PORT = parseInt(process.env.PORT ?? "3000", 10);
+const rawPort = process.env.PORT;
+if (!rawPort) {
+  console.error("FATAL: PORT environment variable is required but not set.");
+  process.exit(1);
+}
+const PORT = parseInt(rawPort, 10);
+if (isNaN(PORT)) {
+  console.error(`FATAL: PORT must be a valid number, got "${rawPort}".`);
+  process.exit(1);
+}
 
 app.get("/api/health", (_req: Request, res: Response) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
