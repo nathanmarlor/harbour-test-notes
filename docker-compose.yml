@@ -4,7 +4,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/notes
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/notes
     depends_on:
       db:
         condition: service_healthy
@@ -13,7 +13,7 @@ services:
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: notes
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
