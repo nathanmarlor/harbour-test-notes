@@ -1,7 +1,13 @@
 import { Pool } from "pg";
 
+const DATABASE_URL = process.env.DATABASE_URL;
+if (!DATABASE_URL) {
+  console.error("FATAL: DATABASE_URL environment variable is required but not set.");
+  process.exit(1);
+}
+
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL ?? "postgresql://postgres:postgres@localhost:5432/notes",
+  connectionString: DATABASE_URL,
 });
 
 export async function initDb(): Promise<void> {
