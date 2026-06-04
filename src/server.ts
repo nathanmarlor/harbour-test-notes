@@ -1,8 +1,10 @@
 import express, { Request, Response } from "express";
+import path from "path";
 import { pool, initDb } from "./db";
 
 const app = express();
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "../public")));
 
 const PORT = parseInt(process.env.PORT ?? "3000", 10);
 
